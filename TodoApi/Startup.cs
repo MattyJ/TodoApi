@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -8,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.PlatformAbstractions;
 using Swashbuckle.AspNetCore.Swagger;
 using TodoApi.Models;
 
@@ -51,6 +53,10 @@ namespace TodoApi
                     Contact = new Contact { Name = "Matt Jordan", Email = "", Url = "mattjordan@tiscali.co.uk" },
                     License = new License { Name = "Use under LICX", Url = "http://url.com" }
                 });
+                //Set the comments path for the swagger json and ui.
+                var basePath = PlatformServices.Default.Application.ApplicationBasePath;
+                var xmlPath = Path.Combine(basePath, "TodoApi.xml");
+                c.IncludeXmlComments(xmlPath);
             });
         }
 
